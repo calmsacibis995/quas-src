@@ -1,0 +1,23 @@
+#!/bin/sh -
+#
+# 4.3BSD-Quasijarus release-making script.
+#
+# This file is freely redistributable.
+#
+#	@(#)buildmini	4.10 (Berkeley) 10/3/99
+#
+
+dist=/sys/vaxdist
+miniroot=ra0d
+minimnt=/tmp/mini
+
+date
+mkdir ${minimnt}
+newfs -s 6144 ${miniroot}
+fsck /dev/r${miniroot}
+mount /dev/${miniroot} ${minimnt}
+cd ${minimnt}; sh ${dist}/get
+cd /; sync
+umount /dev/${miniroot}
+fsck /dev/r${miniroot}
+date

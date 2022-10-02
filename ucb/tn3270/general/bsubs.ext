@@ -1,0 +1,13 @@
+/*
+ *	@(#)bsubs.ext	1.3  9/12/99
+ */
+
+/*
+ * External definitions for genbsubs.c (or vaxbsubs.s, or whatever).
+ */
+extern int
+    bunequal(),
+    bskip();
+
+extern unsigned char
+    *memNSchr();	/* Search for a character ANDED, increment by stride */

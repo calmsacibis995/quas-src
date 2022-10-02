@@ -1,0 +1,52 @@
+#!/bin/sh -
+#
+# 4.3BSD-Quasijarus release-making script.
+#
+# This file is freely redistributable.
+#
+#	@(#)maketape	4.36 (Berkeley) 12/6/03
+#
+
+# maketape releasedir
+miniroot=ra0d
+fullroot=ra1a
+block=20
+tflag=cbf
+
+if [ $# -gt 0 ]; then
+	releasedir=$1;
+else
+	echo usage: $0 releasedir
+	exit
+fi
+
+cd /nbsd
+sync
+
+cd /nbsd/sys/vaxdist/tp
+tp cmf /tmp/tape.$$ boot copy format
+cd /nbsd/sys/mdec
+echo "Build 1st level boot block file"
+cat tmscpboot tsboot htboot tmboot mtboot utboot /tmp/tape.$$ | \
+	dd of=${releasedir}/stand obs=512 conv=sync
+
+echo "Add image of mini-root file system"
+dd if=/dev/r${miniroot} count=308 bs=20b conv=sync of=${releasedir}/miniroot
+
+echo "Add full dump of real file system"
+/etc/dump 0f ${releasedir}/rootdump /dev/r${fullroot}
+
+echo "Add tar image of /usr"
+cd /nbsd/usr
+tar ${tflag} ${block} ${releasedir}/usr.tar MAKEHOSTS adm bin dict games hosts \
+	include lib local man mdec msgs new old preserve pub spool tmp ucb
+
+echo "Add tar image of system sources"
+cd /nbsd/usr/src/sys
+tar ${tflag} ${block} ${releasedir}/srcsys.tar .
+
+echo "Add user source code"
+FILES="Makefile bin cci doc etc games include lib local man old \
+	ucb undoc usr.bin usr.lib"
+cd /nbsd/usr/src
+tar ${tflag} ${block} ${releasedir}/src.tar ${FILES}

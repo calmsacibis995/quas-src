@@ -1,0 +1,15 @@
+/*
+ *	@(#)map3270.ext	1.2  9/12/99
+ */
+
+/*
+ * External routines from map3270.c.
+ */
+
+extern char
+	*strsave();
+
+#if	defined(INCLUDED_STATE)
+extern state
+	*InitControl();
+#endif	/* defined(INCLUDED_STATE) */

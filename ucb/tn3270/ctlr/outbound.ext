@@ -1,0 +1,10 @@
+/*
+ *	@(#)outbound.ext	1.2  9/12/99
+ */
+
+extern int
+	OutputClock,
+	TransparentClock;
+
+extern int
+	DataFromNetwork();

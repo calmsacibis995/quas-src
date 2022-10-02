@@ -1,0 +1,16 @@
+/*
+ *	@(#)termout.ext	1.2  9/12/99
+ */
+
+extern void
+	StartScreen(),
+	StopScreen(),
+	ConnectScreen(),
+	ClearScreen(),
+	LocalClearScreen(),
+	RefreshScreen(),
+	RingBell(),
+	AddHost();
+
+extern int
+	DoTerminalOutput();
